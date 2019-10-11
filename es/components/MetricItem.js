@@ -23,7 +23,7 @@ var MetricItem = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.getColorStatus = function (value) {
-      return value == 0 ? 'success' : 'failure';
+      return value <= 0 ? 'success' : 'failure';
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -37,11 +37,11 @@ var MetricItem = function (_Component) {
 
 
     var lastMetric = periods[periods.length - 1];
-    var colorKey = this.getColorStatus(lastMetric.value);
+    var colorKey = this.getColorStatus(parseInt(lastMetric.value, 10));
     return React.createElement(
       'div',
       { style: _extends({}, style, {
-          width: 'calc(25vw - 6vmin)',
+          width: 'calc(25vw - 4vmin)',
           display: 'inline-block',
           float: 'left',
           padding: '1vmin'
@@ -71,7 +71,7 @@ var MetricItem = function (_Component) {
         ),
         React.createElement(
           'span',
-          { style: { textAlign: 'right', display: 'block' } },
+          { style: { fontSize: '1.5vmin', textAlign: 'right', display: 'block' } },
           value
         )
       )

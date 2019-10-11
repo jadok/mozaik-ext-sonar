@@ -12,17 +12,17 @@ class MetricItem extends Component {
     style: PropTypes.any
   }
 
-  getColorStatus = (value) => value == 0 ? 'success' : 'failure'
+  getColorStatus = (value) => value <= 0 ? 'success' : 'failure'
 
   render() {
     const { style, theme, periods, metric, value, } = this.props;
 
     const lastMetric = periods[periods.length - 1];
-    const colorKey = this.getColorStatus(lastMetric.value)
+    const colorKey = this.getColorStatus(parseInt(lastMetric.value, 10));
     return (
       <div style={{
         ...style,
-        width: 'calc(25vw - 6vmin)',
+        width: 'calc(25vw - 4vmin)',
         display: 'inline-block',
         float: 'left',
         padding: '1vmin'
@@ -44,7 +44,7 @@ class MetricItem extends Component {
           }}>
             {lastMetric.value}
           </p>
-          <span style={{ textAlign: 'right', display: 'block' }}>
+          <span style={{ fontSize: '1.5vmin', textAlign: 'right', display: 'block' }}>
             {value}
           </span>
         </div>
