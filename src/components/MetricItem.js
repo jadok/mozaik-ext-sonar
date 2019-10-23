@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
 
+import { gradingValue } from './utils.js'
+
 class MetricItem extends Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
@@ -12,24 +14,25 @@ class MetricItem extends Component {
     style: PropTypes.any
   }
 
-  getColorStatus = (value) => value <= 0 ? 'success' : 'failure'
+  getColorStatus = (currentVal, previousVal) => gradingValue(currentVal, previousVal)
 
   render() {
     const { style, theme, periods, metric, value, } = this.props;
 
     const lastMetric = periods[periods.length - 1];
-    const colorKey = this.getColorStatus(parseInt(lastMetric.value, 10));
+    const currentVal = parseFloat(lastMetric.value);
+    const previousVal = parseFloat(value);
+    const colorKey = this.getColorStatus(currentVal, previousVal);
     return (
       <div style={{
         ...style,
-        width: 'calc(25vw - 4vmin)',
         display: 'inline-block',
         float: 'left',
-        padding: '1vmin'
+        width: '100%'
       }}>
         <div style={{
           fontSize: theme.widget.header.fontSize,
-          padding: '1vmin'
+          padding: '.5vmin 1vmin'
         }}>
           {metric}
         </div>
@@ -42,10 +45,10 @@ class MetricItem extends Component {
             fontSize: '3.5vmin',
             textAlign: 'center'
           }}>
-            {lastMetric.value}
+            {currentVal.toFixed(2)}
           </p>
-          <span style={{ fontSize: '1.5vmin', textAlign: 'right', display: 'block' }}>
-            {value}
+          <span style={{ fontSize: '2.5vmin', textAlign: 'right', display: 'block' }}>
+            {previousVal.toFixed(2)}
           </span>
         </div>
       </div>

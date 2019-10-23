@@ -10,6 +10,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTheme } from 'styled-components';
 
+import { gradingValue } from './utils.js';
+
 var MetricItem = function (_Component) {
   _inherits(MetricItem, _Component);
 
@@ -22,8 +24,8 @@ var MetricItem = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.getColorStatus = function (value) {
-      return value <= 0 ? 'success' : 'failure';
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.getColorStatus = function (currentVal, previousVal) {
+      return gradingValue(currentVal, previousVal);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -37,20 +39,21 @@ var MetricItem = function (_Component) {
 
 
     var lastMetric = periods[periods.length - 1];
-    var colorKey = this.getColorStatus(parseInt(lastMetric.value, 10));
+    var currentVal = parseFloat(lastMetric.value);
+    var previousVal = parseFloat(value);
+    var colorKey = this.getColorStatus(currentVal, previousVal);
     return React.createElement(
       'div',
       { style: _extends({}, style, {
-          width: 'calc(25vw - 4vmin)',
           display: 'inline-block',
           float: 'left',
-          padding: '1vmin'
+          width: '100%'
         }) },
       React.createElement(
         'div',
         { style: {
             fontSize: theme.widget.header.fontSize,
-            padding: '1vmin'
+            padding: '.5vmin 1vmin'
           } },
         metric
       ),
@@ -67,12 +70,12 @@ var MetricItem = function (_Component) {
               fontSize: '3.5vmin',
               textAlign: 'center'
             } },
-          lastMetric.value
+          currentVal.toFixed(2)
         ),
         React.createElement(
           'span',
-          { style: { fontSize: '1.5vmin', textAlign: 'right', display: 'block' } },
-          value
+          { style: { fontSize: '2.5vmin', textAlign: 'right', display: 'block' } },
+          previousVal.toFixed(2)
         )
       )
     );
