@@ -7,6 +7,7 @@ import {
   WidgetBody
 } from '@mozaik/ui'
 
+import { formatDate } from './utils'
 import MetricItem from './MetricItem'
 
 export default class Metric extends Component {
@@ -31,16 +32,18 @@ export default class Metric extends Component {
 
   render() {
     const { apiData: data, project, theme, style } = this.props
+    const version = data && data.project.component.version ? `-${data.project.component.version}` : ''
+    const lastRelease = formatDate(data && data.project.component.leakPeriodDate ? data.project.component.leakPeriodDate : null)
     return (
       <Widget>
         <WidgetHeader
-          title="Sonar"
-          subject={project}
+          title={`Sonar${version}`}
+          subject={`${project}${lastRelease}`}
           subjectPlacement="append"
           icon={() => null}
         />
         <WidgetBody>
-          {data && data.measures.map((mesure) => {
+          {data && data.metrics && data.metrics.measures.map((mesure) => {
             return (
               <MetricItem
                 {...mesure}

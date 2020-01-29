@@ -8,3 +8,11 @@ export var gradingValue = function gradingValue(currentVal, previousVal) {
   }
   return 'failure';
 };
+
+export var formatDate = function formatDate(date) {
+  if (!date) {
+    return '';
+  }
+  var dateToFormat = new Date(date);
+  return ' -- ' + dateToFormat.getDate() + '-' + (dateToFormat.getMonth() + 1) + '-' + dateToFormat.getFullYear();
+};

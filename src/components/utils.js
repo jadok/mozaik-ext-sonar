@@ -8,3 +8,11 @@ export const gradingValue = (currentVal, previousVal) => {
   }
   return 'failure';
 }
+
+export const formatDate = (date) => {
+  if (!date) {
+    return '';
+  }
+  const dateToFormat = new Date(date);
+  return ` -- ${dateToFormat.getDate()}-${dateToFormat.getMonth() + 1}-${dateToFormat.getFullYear()}`
+}

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 
 import { Widget, WidgetHeader, WidgetBody } from '@mozaik/ui';
 
+import { formatDate } from './utils';
 import MetricItem from './MetricItem';
 
 var Metric = function (_Component) {
@@ -42,12 +43,14 @@ var Metric = function (_Component) {
         theme = _props.theme,
         style = _props.style;
 
+    var version = data && data.project.component.version ? '-' + data.project.component.version : '';
+    var lastRelease = formatDate(data && data.project.component.leakPeriodDate ? data.project.component.leakPeriodDate : null);
     return React.createElement(
       Widget,
       null,
       React.createElement(WidgetHeader, {
-        title: 'Sonar',
-        subject: project,
+        title: 'Sonar' + version,
+        subject: '' + project + lastRelease,
         subjectPlacement: 'append',
         icon: function icon() {
           return null;
@@ -56,7 +59,7 @@ var Metric = function (_Component) {
       React.createElement(
         WidgetBody,
         null,
-        data && data.measures.map(function (mesure) {
+        data && data.metrics && data.metrics.measures.map(function (mesure) {
           return React.createElement(MetricItem, _extends({}, mesure, {
             key: mesure.component + ' - ' + mesure.metric,
             theme: theme,

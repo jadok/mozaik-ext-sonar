@@ -52,8 +52,17 @@ const client = mozaik => {
 
   const apiCalls = {
     metricFlow({ project, metric }) {
+      let metrics = {}
       mozaik.logger.info(chalk.yellow(`[sonar] calling ${project} - ${metric}`));
-      return buildApiRequest(`/api/measures/search?projectKeys=${project}&metricKeys=${metric}`).then(res => res.body)
+      return buildApiRequest(`/api/measures/search?projectKeys=${project}&metricKeys=${metric}`)
+        .then((res) => {
+          metrics = res.body
+        })
+        .then(() => buildApiRequest(`/api/components/show?component=${project}`))
+        .then(({ body }) => ({
+          metrics,
+          project: body
+        }))
     },
 
   }

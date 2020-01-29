@@ -54,9 +54,18 @@ var client = function client(mozaik) {
       var project = _ref.project,
           metric = _ref.metric;
 
+      var metrics = {};
       mozaik.logger.info(chalk.yellow('[sonar] calling ' + project + ' - ' + metric));
       return buildApiRequest('/api/measures/search?projectKeys=' + project + '&metricKeys=' + metric).then(function (res) {
-        return res.body;
+        metrics = res.body;
+      }).then(function () {
+        return buildApiRequest('/api/components/show?component=' + project);
+      }).then(function (_ref2) {
+        var body = _ref2.body;
+        return {
+          metrics: metrics,
+          project: body
+        };
       });
     }
   };
