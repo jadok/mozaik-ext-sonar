@@ -43,8 +43,8 @@ var Metric = function (_Component) {
         theme = _props.theme,
         style = _props.style;
 
-    var version = data && data.project.component.version ? '-' + data.project.component.version : '';
-    var lastRelease = formatDate(data && data.project.component.leakPeriodDate ? data.project.component.leakPeriodDate : null);
+    var version = data && data.project && data.project.component && data.project.component.version ? '-' + data.project.component.version : '';
+    var lastRelease = formatDate(data && data.project && data.project.component && data.project.component.leakPeriodDate ? data.project.component.leakPeriodDate : null);
     return React.createElement(
       Widget,
       null,

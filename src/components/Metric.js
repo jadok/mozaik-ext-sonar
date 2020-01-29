@@ -32,8 +32,8 @@ export default class Metric extends Component {
 
   render() {
     const { apiData: data, project, theme, style } = this.props
-    const version = data && data.project.component.version ? `-${data.project.component.version}` : ''
-    const lastRelease = formatDate(data && data.project.component.leakPeriodDate ? data.project.component.leakPeriodDate : null)
+    const version = data && data.project && data.project.component && data.project.component.version ? `-${data.project.component.version}` : ''
+    const lastRelease = formatDate(data && data.project && data.project.component && data.project.component.leakPeriodDate ? data.project.component.leakPeriodDate : null)
     return (
       <Widget>
         <WidgetHeader
